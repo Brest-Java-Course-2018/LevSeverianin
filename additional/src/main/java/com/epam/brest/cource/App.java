@@ -3,10 +3,7 @@ package com.epam.brest.cource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main( String[] args ) throws SQLException, ClassNotFoundException {
@@ -18,6 +15,7 @@ public class App
         dbUtils.addUser(connection, "admin", "admin", "user admin");
         dbUtils.addUser(connection, "admin1", "admin1", "user admin1");
         dbUtils.addUser(connection, "admin2", "admin2", "user admin2");
+        dbUtils.deleteUser(connection, "1");
         dbUtils.getUsers(connection);
 
     }

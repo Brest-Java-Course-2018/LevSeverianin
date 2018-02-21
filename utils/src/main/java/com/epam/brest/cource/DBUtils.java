@@ -15,7 +15,7 @@ public class DBUtils {
         return connection;
     }
 
-    public void createUserTable(Connection connection) throws SQLException {
+    public int createUserTable(Connection connection) throws SQLException {
 
         System.out.println("Create app_user table.");
         String createTable =
@@ -26,13 +26,11 @@ public class DBUtils {
                         "description VARCHAR(255) NULL," +
                         "PRIMARY KEY (user_id));";
 
-        //createStatement  - выборка наверное))
-        //prepareCall - инсерты, едиты
         Statement statement = connection.createStatement();
-        statement.executeUpdate(createTable);
+        return statement.executeUpdate(createTable);
     }
 
-    public void addUser(Connection connection, String login, String password, String description) throws SQLException {
+    public int addUser(Connection connection, String login, String password, String description) throws SQLException {
 
         System.out.println(String.format("Added user: %s", login));
 
@@ -42,7 +40,7 @@ public class DBUtils {
         preparedStatement.setString(1, login);
         preparedStatement.setString(2, password);
         preparedStatement.setString(3, description);
-        preparedStatement.executeUpdate();
+        return preparedStatement.executeUpdate();
     }
 
     public void getUsers(Connection connection) throws SQLException {
@@ -58,5 +56,16 @@ public class DBUtils {
             System.out.println(String.format("User: %s, %s, %s", resultSet.getString("id"), resultSet.getString("login"), resultSet.getString("description")));
         }
 
+    }
+
+    public int deleteUser(Connection connection, String id) throws SQLException {
+
+        System.out.println(String.format("Delete user with id: %s", id));
+
+        String newUser = "DELETE FROM app_user WHERE user_id=?;";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(newUser);
+        preparedStatement.setString(1, id);
+        return preparedStatement.executeUpdate();
     }
 }
